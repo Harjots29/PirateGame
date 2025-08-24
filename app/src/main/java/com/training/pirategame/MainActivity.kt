@@ -58,6 +58,16 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+fun updateDirection(isFirstClicked: Boolean, direction:String, start:(String)-> Unit, end:(String)-> Unit){
+    if (isFirstClicked==true){
+        start(direction)
+        end(direction)
+    }
+    else{
+        end(direction)
+    }
+}
+
 @Composable
 fun PirateGame() {
     
@@ -65,6 +75,7 @@ fun PirateGame() {
     var randomNumber by remember{ mutableStateOf(0) }
     var start by remember { mutableStateOf("Start") }
     var end by remember { mutableStateOf("End") }
+    var isFirstClicked by remember { mutableStateOf(true) }
 
     Column(modifier = Modifier
         .fillMaxSize()
@@ -96,7 +107,8 @@ fun PirateGame() {
 
         Row(modifier = Modifier.fillMaxWidth()) {
             Text(text = start,
-                modifier = Modifier.padding(20.dp),
+                modifier = Modifier.padding(20.dp)
+                    .weight(1f),
                 fontSize = 30.sp,
                 textAlign = androidx.compose.ui.text.style.TextAlign.Start,
                 fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
@@ -104,7 +116,7 @@ fun PirateGame() {
             Text(text = end,
                 modifier = Modifier
                     .padding(20.dp)
-                    .fillMaxWidth(),
+                    .weight(1f),
                 fontSize = 30.sp,
                 textAlign = androidx.compose.ui.text.style.TextAlign.End,
                 fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
@@ -131,8 +143,8 @@ fun PirateGame() {
                     }else{
                         heading = "Treasure Found"
                     }
-                    start = "NORTH"
-                    end = "NORTH"
+                    updateDirection(isFirstClicked, "NORTH",{start = it},{end = it})
+                    isFirstClicked = false
                 }
             ){
                 Text("NORTH",
@@ -159,7 +171,8 @@ fun PirateGame() {
                     }else{
                         heading = "Treasure Found"
                     }
-                    end = "WEST"
+                    updateDirection(isFirstClicked, "WEST",{start = it},{end = it})
+                    isFirstClicked = false
                 }
             ){
                 Text("WEST",
@@ -179,7 +192,8 @@ fun PirateGame() {
                     }else{
                         heading = "Treasure Found"
                     }
-                    end = "EAST"
+                    updateDirection(isFirstClicked, "EAST",{start = it},{end = it})
+                    isFirstClicked = false
                 }
             ){
                 Text("EAST",
@@ -206,7 +220,8 @@ fun PirateGame() {
                     }else{
                         heading = "Treasure Found"
                     }
-                    end = "SOUTH"
+                    updateDirection(isFirstClicked, "SOUTH",{start = it},{end = it})
+                    isFirstClicked = false
                 }
             ){
                 Text("SOUTH",
